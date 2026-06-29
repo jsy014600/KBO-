@@ -2,17 +2,11 @@ name: KBO 순위 전송
 
 on:
   schedule:
-    # 평일 오후 5시 (UTC 08:00)
     - cron: '0 8 * * 1-5'
-    # 평일 오후 11시 (UTC 14:00)
     - cron: '0 14 * * 1-5'
-    # 토요일 오후 4시 (UTC 07:00)
     - cron: '0 7 * * 6'
-    # 토요일 오후 10시 (UTC 13:00)
     - cron: '0 13 * * 6'
-    # 일요일 오후 1시 (UTC 04:00)
     - cron: '0 4 * * 0'
-    # 일요일 오후 10시 (UTC 13:00)
     - cron: '0 13 * * 0'
   workflow_dispatch:
 
@@ -20,11 +14,14 @@ jobs:
   send-standings:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - run: pip install requests beautifulsoup4
-      - env:
+      - name: 패키지 설치
+        run: pip install requests beautifulsoup4
+      - name: KBO 순위 전송
+        env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-        run: python bot.py
+          PYTHONUNBUFFERED: "1"
+        run: python -u bot.py

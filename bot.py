@@ -1,11 +1,11 @@
+import os
 import requests
 from bs4 import BeautifulSoup
 import schedule
 import time
 from datetime import datetime
 
-WEBHOOK_URL = "https://discord.com/api/webhooks/1521104717785202738/CzXHIysXBOHHTW9-wAIg4nBO41Fc7OFCuM54tDCpDbjXos49pTdjELfOwdboYk-gL9GW
-"
+WEBHOOK_URL = os.environ.get("WEBHOOK_URL")
 
 def get_kbo_standings():
     url = "https://www.koreabaseball.com/Record/TeamRank/TeamRankDaily.aspx"

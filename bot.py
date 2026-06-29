@@ -1,8 +1,6 @@
-import os
 import requests
 from bs4 import BeautifulSoup
-import schedule
-import time
+import os
 from datetime import datetime
 
 WEBHOOK_URL = os.environ.get("WEBHOOK_URL")
@@ -39,19 +37,6 @@ def get_kbo_standings():
 
     return "\n".join(lines)
 
-def send_to_discord():
-    try:
-        message = get_kbo_standings()
-        requests.post(WEBHOOK_URL, json={"content": message})
-        print(f"전송 완료: {datetime.now()}")
-    except Exception as e:
-        print(f"오류 발생: {e}")
-
-schedule.every().day.at("09:00").do(send_to_discord)
-
-print("봇 시작됨!")
-send_to_discord()
-
-while True:
-    schedule.run_pending()
-    time.sleep(60)
+message = get_kbo_standings()
+requests.post(WEBHOOK_URL, json={"content": message})
+print(f"전송 완료: {datetime.now()}")
